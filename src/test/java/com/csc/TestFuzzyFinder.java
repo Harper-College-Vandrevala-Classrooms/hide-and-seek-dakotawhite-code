@@ -1,9 +1,9 @@
 package com.csc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,14 +19,33 @@ public class TestFuzzyFinder {
   }
 
   @Test
-  void exampleFailingTestWithRandomizedFuzzies() {
-    ArrayList<Fuzzy> fuzzies = generator.randomizedRainbowFuzzies();
-    assertEquals("purple", fuzzies.getFirst().color);
+  void testLinearSearchOnSortedList() {
+      ArrayList<Fuzzy> sortedFuzzies = generator.sortedRainbowFuzzies();
+      int index = FuzzyFinder.linearSearch(sortedFuzzies);
+      assertTrue(index != -1, "'gold' should be found.");
+      assertEquals("gold", sortedFuzzies.get(index).color);
   }
 
   @Test
-  void exampleFailingTestWithSortedFuzzies() {
-    ArrayList<Fuzzy> fuzzies = generator.sortedRainbowFuzzies();
-    assertEquals("purple", fuzzies.getFirst().color);
+  void testLinearSearchOnRandomList() {
+      ArrayList<Fuzzy> randomFuzzies = generator.randomizedRainbowFuzzies();
+      int index = FuzzyFinder.linearSearch(randomFuzzies);
+      assertTrue(index != -1, "'gold' should be found.");
+      assertEquals("gold", randomFuzzies.get(index).color);
+  }
+
+  @Test
+  void testBinarySearchOnSortedList() {
+      ArrayList<Fuzzy> sortedFuzzies = generator.sortedRainbowFuzzies();
+      int index = FuzzyFinder.binarySearch(sortedFuzzies);
+      assertTrue(index != -1, "'gold' should be found.");
+      assertEquals("gold", sortedFuzzies.get(index).color);
+  }
+
+  @Test
+  void testBinarySearchOnRandomizedList() {
+      ArrayList<Fuzzy> randomFuzzies = generator.randomizedRainbowFuzzies();
+      int index = FuzzyFinder.binarySearch(randomFuzzies);
+      assertEquals(-1, index);
   }
 }
